@@ -1,26 +1,16 @@
-//
-//  MealsPerDay.swift
-//  2
-//
-//  Created by Ευθύμης Παντουβάκης on 24/3/25.
-//
-
-import SwiftUI
-
-
 import SwiftUI
 
 struct MealsPerDay: View {
     var meals: [Meal]
     var dayTitle: String
     var date: String
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("\(dayTitle) \(date)")
                 .font(.headline)
                 .padding(.leading)
-
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 20) {
                     ForEach(meals) { meal in
@@ -31,20 +21,22 @@ struct MealsPerDay: View {
                                     .bold()
                                 Spacer()
                                 Image(systemName: "heart")
-                               
                             }
-
+                            
                             Text("Μεσημεριανό") // logika ola mesimeriana ipothetw? opote mpainei fixed
                                 .font(.caption)
                                 .foregroundColor(.gray)
-
-                            Text(meal.Desc)
-                                .font(.body)
-
+                            
+                            ScrollView {
+                                Text(meal.Desc)
+                                    .font(.body)
+                            }
+                            .frame(maxHeight: 100)
+                            
                             Text("kcal \(meal.Kcal)")
                                 .font(.caption)
                                 .bold()
-
+                            
                             Button(action: {
                                 print("Meal selected: \(meal)")
                             }) {
@@ -60,8 +52,7 @@ struct MealsPerDay: View {
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
-                        .frame(width: 300,height: 300)
-                    
+                        .frame(width: 250, height: 250) // Fixed width and height for square boxes
                     }
                 }
                 .padding(.horizontal)
@@ -70,6 +61,3 @@ struct MealsPerDay: View {
         }
     }
 }
-
-
-

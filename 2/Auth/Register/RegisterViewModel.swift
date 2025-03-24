@@ -9,13 +9,26 @@ class RegisterViewModel: ObservableObject {
     @Published var registerAlertMessage = ""
     @Published var registerAlert = false
     @Published var isLoading = false
-    func register() {
-        if password == confirmPassword {
-            registerApi()
-        } else {
+   func register() {
+        if username.isEmpty || password.isEmpty || confirmPassword.isEmpty {
+            registerAlertMessage = "Please fill all the fields"
+            registerAlert = true
+            return
+        }
+
+        if password.count < 8 {
+            registerAlertMessage = "Password should be at least 8 characters."
+            registerAlert = true
+            return
+        }
+
+        if password != confirmPassword {
             registerAlertMessage = "Passwords do not match."
             registerAlert = true
+            return
         }
+
+        registerApi()
     }
     // http://localhost:3000/api/v1/users   register
     // https://run.mocky.io/v3/f7a8587a-924c-4758-bda0-c4462dcc70e1 success apantisi

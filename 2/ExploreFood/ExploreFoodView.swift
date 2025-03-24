@@ -16,7 +16,7 @@ struct ExploreFoodView: View {
                             for dayIndex in 0..<5 {
                                 if weekData.dayMeals.count > dayIndex {
                                     dayMeals[dayIndex] = weekData.dayMeals[dayIndex].Meals
-                                    dayDates[dayIndex] = weekData.dayMeals[dayIndex].Date
+                                    dayDates[dayIndex] = weekData.dayMeals[dayIndex].Date // Store date
                                 }
                             }
                         } catch {
@@ -29,7 +29,7 @@ struct ExploreFoodView: View {
 
                 ForEach(0..<dayMeals.count, id: \.self) { index in
                     if !dayMeals[index].isEmpty {
-                        MealsPerDay(meals: dayMeals[index], dayTitle: dayTitles[index], date: dayDates[index]) 
+                        MealsPerDay(meals: dayMeals[index], dayTitle: dayTitles[index], date: dayDates[index]) // Pass date
                     } else {
                         Text("den exei masa for \(dayTitles[index]).")
                             .frame(width: 300,height: 100)
@@ -49,7 +49,7 @@ struct ExploreFoodView: View {
     }
 }
 
-
+// Preview provider for ExploreFoodView
 #Preview {
     ExploreFoodView()
 }

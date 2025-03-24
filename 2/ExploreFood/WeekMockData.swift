@@ -56,7 +56,7 @@ func generateMockMealsForDay(dayOffset: Int) async throws -> [Meal] {
 
     let meals: [[Meal]] = [
         [
-            Meal(Name: "Chicken a la cream", Desc: "Creamhgfjhgfjgffbggffdghhdfgfdhgdfghhdfgfdghhdfghdfg dhfgdcvhgfcdhgfd fgd hfgd hfgd hfgdchvgfdcvhgfdvhgfdvhgfdhvfhgfhgfy chhgfjhgfjickengfjhgfghffhgfhgfj", Kcal: 450, Favourite: true, Selected: true),
+            Meal(Name: "Chicken a la cream", Desc: "fgfdhgghdfg dhfgdcvhgfcdhgfd fgd hfgd hfgd hfgdchvgfdcvhgfdvhgfdvhgfdhvfhgfhgfy chhgfjhgfjickengfjhgfghffhgfhgfj", Kcal: 450, Favourite: true, Selected: true),
             Meal(Name: "Simple Salad", Desc: "Lettuce, tomato", Kcal: 150, Favourite: true, Selected: true),
             Meal(Name: "Chocolate cake", Desc: "Dessert", Kcal: 300, Favourite: true, Selected: false)
         ],
