@@ -1,63 +1,95 @@
 import SwiftUI
 
-struct MealsPerDay: View {
-    var meals: [Meal]
-    var dayTitle: String
+struct MealsPerDayView: View {
+    var meals: [MealObject]
     var date: String
-    
+    @State private var selectedMealID: Int?
+    @State private var isFavorite = false
     var body: some View {
         VStack(alignment: .leading) {
-            Text("\(dayTitle) \(date)")
+            Text(date)
                 .font(.headline)
                 .padding(.leading)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 20) {
-                    ForEach(meals) { meal in
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Text(meal.Name)
-                                    .font(.title3)
-                                    .bold()
-                                Spacer()
-                                Image(systemName: "heart")
+
+            ScrollViewReader { scrollViewProxy in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing : 20) {
+                        ForEach(meals, id: \.meal_id) { meal in
+                            GeometryReader { geometry in
+                                VStack(alignment: .leading, spacing: 10) {
+                                    HStack {
+                                        Text(meal.title)
+                                            .font(.title3)
+                                            .bold()
+                                        Spacer()
+
+                                        Button(action: {
+                                            isFavorite.toggle()
+                                        }) {
+                                            Image(systemName: isFavorite ? "heart.fill" : "heart")
+                                                .foregroundColor(isFavorite ? .red : .gray)
+                                        }
+                                    }
+
+                                    Text("launch")
+                                        .font(.caption)
+                                        .bold()
+                                        .padding(.horizontal)
+                                        .background(Color(.systemGray2))
+                                        .cornerRadius(30)
+
+                                    ScrollView(showsIndicators: true) {
+                                        Text(meal.description)
+                                            .font(.system(size: 12))
+                                    }
+                                    .frame(maxHeight: 100)
+
+                                    Text("kcal \(meal.calories)")
+                                        .font(.caption)
+                                        .bold()
+
+                                    Button(action: {
+                                        withAnimation {
+                                            if selectedMealID == meal.meal_id {
+                                                selectedMealID = nil
+                                            } else {
+                                                selectedMealID = meal.meal_id
+                                            }
+                                            if selectedMealID == meal.meal_id {
+                                                scrollViewProxy.scrollTo(meal.meal_id, anchor: .center)
+                                            }
+                                        }
+                                    }) {
+                                        Text(selectedMealID == meal.meal_id ? "Unsave" : "selectt")
+                                            .padding(.horizontal, 60)
+                                            .padding(.vertical, 10)
+                                            .foregroundColor(.black).bold()
+                                            .background(Color(.systemGray3))
+                                            .cornerRadius(20)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                }
+                                .padding()
+                                .background(Color(.systemGray6))
+                                .cornerRadius(10)
+                                .frame(width: 250, height: 250)
+                                .opacity(selectedMealID == nil || selectedMealID == meal.meal_id ? 1 : 0)
+                                .scaleEffect(selectedMealID == nil || selectedMealID == meal.meal_id ? 1 : 0)
+                                .padding(.trailing, selectedMealID == meal.meal_id ? 40 : 0)
+                                .animation(.easeInOut, value: selectedMealID)
+                                .id(meal.meal_id)
                             }
-                            
-                            Text("Μεσημεριανό") // logika ola mesimeriana ipothetw? opote mpainei fixed
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                            
-                            ScrollView {
-                                Text(meal.Desc)
-                                    .font(.body)
-                            }
-                            .frame(maxHeight: 100)
-                            
-                            Text("kcal \(meal.Kcal)")
-                                .font(.caption)
-                                .bold()
-                            
-                            Button(action: {
-                                print("Meal selected: \(meal)")
-                            }) {
-                                Text("selectt")
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 10)
-                                    .foregroundColor(.black).bold()
-                                    .background(Color(.systemGray3))
-                                    .cornerRadius(20)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
+                            .frame(width: 250, height: 250)
                         }
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                        .frame(width: 250, height: 250) // Fixed width and height for square boxes
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
+                .padding(.bottom)
             }
-            .padding(.bottom)
         }
     }
+}
+
+#Preview {
+    ExploreFoodView()
 }

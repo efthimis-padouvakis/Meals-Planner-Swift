@@ -27,10 +27,8 @@ class LoginViewModel: ObservableObject {
                 switch response.result {
                 case .success(let loginResponse):
                     if let token = loginResponse.token {
-                        //successful login with the token
                         print("Login successful kai to to token: \(token)")
                     } else if let error = loginResponse.error {
-                        // login errors
                         self.alertMessage = error
                         self.showAlert = true
                     } else {
@@ -38,10 +36,13 @@ class LoginViewModel: ObservableObject {
                         self.showAlert = true
                     }
                 case .failure(let error):
-                    // network errors
+                    print("Login error: \(error)")
                     self.alertMessage = error.localizedDescription
                     self.showAlert = true
                 }
             }
     }
+    
+    
+    
 }

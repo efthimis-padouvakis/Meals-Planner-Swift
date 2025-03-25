@@ -16,8 +16,8 @@ class RegisterViewModel: ObservableObject {
             return
         }
 
-        if password.count < 8 {
-            registerAlertMessage = "Password should be at least 8 characters."
+        if password.count < 6 {
+            registerAlertMessage = "Password should be at least 6 characters."
             registerAlert = true
             return
         }
