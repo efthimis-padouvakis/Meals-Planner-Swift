@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @Binding var isRegistering: Bool // back to login
+    @Binding var showRegisterCover: Bool
     @StateObject private var viewModel = RegisterViewModel()
 
     var body: some View {
@@ -27,28 +27,36 @@ struct RegisterView: View {
 
             Button("Register") {
                 viewModel.register()
+                viewModel.confirmPassword = ""
+                viewModel.password = ""
+                viewModel.username = ""
             }
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color.green)
+            .background(Color.blue)
             .foregroundColor(.white)
             .cornerRadius(8)
-            .disabled(viewModel.isLoading) 
+            .disabled(viewModel.isLoading)
 
             if viewModel.isLoading {
                 ProgressView()
             }
 
-            Button("Login") {
-                isRegistering = false
+            Button(action: {
+                showRegisterCover = false
+            }) {
+                HStack {
+                    Image(systemName: "chevron.backward")
+                    Text("Back to Login")
+                }
             }
             .padding(.top, 10)
-            .foregroundColor(.gray)
+            .foregroundColor(.blue)
 
             .alert(isPresented: $viewModel.registerAlert) {
                 Alert(title: Text("Registration"), message: Text(viewModel.registerAlertMessage), dismissButton: .default(Text("OK")) {
                     if viewModel.registrationSuccessful {
-                        isRegistering = false
+                        showRegisterCover = false
                     }
                 })
             }
@@ -56,6 +64,7 @@ struct RegisterView: View {
         .padding()
     }
 }
+
 #Preview {
-   RegisterView(isRegistering: .constant(true))
+    RegisterView(showRegisterCover: .constant(true))
 }

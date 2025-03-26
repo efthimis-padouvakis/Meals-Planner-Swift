@@ -2,51 +2,56 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
-    @State private var isRegistering = false
-
+    @State private var showRegisterCover = false 
+    var hatView = RotatingIconView()
     var body: some View {
-        NavigationStack {
-            VStack {
+        VStack {
+            hatView
                 Text("Login")
                     .font(.largeTitle)
                     .padding(.bottom, 20)
-
-                TextField("Username", text: $viewModel.username)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-
-                SecureField("Password", text: $viewModel.password)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-
-                Button("Login") {
-                    viewModel.login()
-                   
-             
-                }
+            TextField("Username", text: $viewModel.username)
                 .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.blue)
-                .foregroundColor(.white)
+                .background(Color(.systemGray6))
                 .cornerRadius(8)
 
-                Button("Register if you don't have an account") {
-                    isRegistering = true
-                }
-                .padding(.top, 10)
-                .foregroundColor(.gray)
+            SecureField("Password", text: $viewModel.password)
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
 
-                .alert(isPresented: $viewModel.showAlert) {
-                    Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
-                }
+            Button("Login") {
+                viewModel.login()
+                viewModel.username = ""
+                viewModel.password = ""
             }
             .padding()
-            .navigationDestination(isPresented: $isRegistering) {
-                RegisterView(isRegistering: $isRegistering)
+            .frame(maxWidth: .infinity)
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+
+            HStack {
+                Text("Dont have an acccount?")
+                Button("Register") {
+                    showRegisterCover = true
+                }
+                .foregroundColor(.blue)
+            }
+            .padding(.top, 10)
+            .foregroundColor(.gray)
+
+            .alert(isPresented: $viewModel.showAlert) {
+                Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
             }
         }
+        .padding()
+        .fullScreenCover(isPresented: $showRegisterCover) {
+            RegisterView(showRegisterCover: $showRegisterCover)
+        }
+        .fullScreenCover(isPresented: $viewModel.isLoggedIn, content: {
+            ExploreFoodView()
+        })
     }
 }
 

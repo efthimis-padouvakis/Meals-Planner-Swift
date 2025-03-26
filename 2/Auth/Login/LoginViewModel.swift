@@ -2,7 +2,6 @@ import Foundation
 import SwiftUI
 import Alamofire
 
-
 struct LoginResponse: Codable {
     let token: String?
     let error: String?
@@ -13,14 +12,14 @@ class LoginViewModel: ObservableObject {
     @Published var password = ""
     @Published var showAlert = false
     @Published var alertMessage = ""
+    @Published var isLoggedIn = false
 
     func login() {
-        
         let parameters: [String: String] = [
             "username": username,
             "password": password
         ]
-//
+
         AF.request("http://localhost:3000/api/v1/login", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default)
             .validate()
             .responseDecodable(of: LoginResponse.self) { response in
@@ -28,6 +27,7 @@ class LoginViewModel: ObservableObject {
                 case .success(let loginResponse):
                     if let token = loginResponse.token {
                         print("Login successful kai to to token: \(token)")
+                        self.isLoggedIn = true 
                     } else if let error = loginResponse.error {
                         self.alertMessage = error
                         self.showAlert = true
@@ -42,7 +42,4 @@ class LoginViewModel: ObservableObject {
                 }
             }
     }
-    
-    
-    
 }

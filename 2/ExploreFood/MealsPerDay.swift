@@ -4,7 +4,6 @@ struct MealsPerDayView: View {
     var meals: [MealObject]
     var date: String
     @State private var selectedMealID: Int?
-    @State private var isFavorite = false
     var body: some View {
         VStack(alignment: .leading) {
             Text(date)
@@ -22,13 +21,12 @@ struct MealsPerDayView: View {
                                             .font(.title3)
                                             .bold()
                                         Spacer()
-
-                                        Button(action: {
-                                            isFavorite.toggle()
-                                        }) {
-                                            Image(systemName: isFavorite ? "heart.fill" : "heart")
-                                                .foregroundColor(isFavorite ? .red : .gray)
-                                        }
+                                       Image(systemName: meal.isLiked ? "heart.fill" : "heart")
+                                           .foregroundColor(meal.isLiked ? .red : .gray)
+//                                           .onTapGesture {
+//                                               //     meal.isLiked.toggle()
+//                                               print("hah")
+//                                           }
                                     }
 
                                     Text("launch")

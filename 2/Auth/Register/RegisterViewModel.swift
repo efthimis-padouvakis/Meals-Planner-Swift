@@ -30,9 +30,7 @@ class RegisterViewModel: ObservableObject {
 
         registerApi()
     }
-    // http://localhost:3000/api/v1/users   register
-    // https://run.mocky.io/v3/f7a8587a-924c-4758-bda0-c4462dcc70e1 success apantisi
-    //https://run.mocky.io/v3/24c8db7a-4f42-4b11-81f6-3263fd92a7d1 apantisi me error
+    // http://localhost:3000/api/v1/users   register api
     func registerApi() {
         isLoading = true 
 

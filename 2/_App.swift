@@ -11,8 +11,7 @@ import SwiftUI
 struct _App: App {
     var body: some Scene {
         WindowGroup {
-            ExploreFoodView()
-            // LoginView()
+            LoginView()
         }
     }
 }

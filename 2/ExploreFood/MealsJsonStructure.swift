@@ -7,20 +7,22 @@ struct JsonWeekAPIResponse: Decodable {
     let date_range: String
     let previous_week: Int
     let next_week: Int
-    let weekly_meals: [MealsPerDay]
+    var weekly_meals: [MealsPerDay]
 }
 
 struct MealsPerDay: Decodable {
     let day: String
     let date: String
-    let meals: [MealObject]
+    var meals: [MealObject]
 }
 
 struct MealObject: Decodable {
     let meal_id: Int
-    let title: String
+    var title: String
     let description: String
     let calories: Int
+    var isLiked: Bool
+    var isSelected: Bool
 }
 
 
