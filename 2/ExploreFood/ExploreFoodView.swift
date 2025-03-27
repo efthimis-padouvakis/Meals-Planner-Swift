@@ -2,15 +2,18 @@ import SwiftUI
 
 struct ExploreFoodView: View {
     @StateObject var viewModel = ExploreFoodViewModel()
-    @State var weekStepper = 0
     @State var currentDates = ""
+   // @State var mealsIdContainingLikes = [Int]?
+    @State var weekIamAsking = 10000000000
     var body: some View {
         
         HStack {
             Button {
-                weekStepper -= 1
-                viewModel.fetchMeals(currentWeek: $weekStepper, dateRange: $currentDates)
-                print(weekStepper)
+                weekIamAsking += -1   // pigene aristera
+                viewModel.fetchMeals(weekIamAsking: $weekIamAsking, dateRange: $currentDates)
+             
+                print("current week is \(weekIamAsking)")
+    
             } label: {
                 Image(systemName: "chevron.left.circle")
                     .foregroundColor(.black)
@@ -28,8 +31,9 @@ struct ExploreFoodView: View {
             
             
             Button {
-                weekStepper += 1
-                viewModel.fetchMeals(currentWeek: $weekStepper, dateRange: $currentDates)
+                weekIamAsking += 1   // pigene dexia
+                viewModel.fetchMeals(weekIamAsking: $weekIamAsking, dateRange: $currentDates)
+                print("current week is \(weekIamAsking)")
             } label: {
                 Image(systemName: "chevron.right.circle")
                     .foregroundColor(.black)
@@ -50,6 +54,7 @@ struct ExploreFoodView: View {
                         if !viewModel.dayMeals[index].isEmpty {
                             MealsPerDayView(meals: viewModel.dayMeals[index], date: viewModel.dayDates[index])
                         } else {
+                            
                             Text("den exei masa for .")
                                 .frame(width: 400, height: 200)
                                 .background(Color(.systemGray3))
@@ -59,7 +64,7 @@ struct ExploreFoodView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchMeals(currentWeek: $weekStepper, dateRange: $currentDates)
+                viewModel.fetchMeals(weekIamAsking: $weekIamAsking, dateRange: $currentDates)
             }
         }
     }

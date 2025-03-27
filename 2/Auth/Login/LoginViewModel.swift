@@ -8,13 +8,14 @@ struct LoginResponse: Codable {
 }
 
 class LoginViewModel: ObservableObject {
+    
     @Published var username = ""
     @Published var password = ""
     @Published var showAlert = false
     @Published var alertMessage = ""
     @Published var isLoggedIn = false
 
-    func login() {
+    func login(){
         let parameters: [String: String] = [
             "username": username,
             "password": password
@@ -27,7 +28,8 @@ class LoginViewModel: ObservableObject {
                 case .success(let loginResponse):
                     if let token = loginResponse.token {
                         print("Login successful kai to to token: \(token)")
-                        self.isLoggedIn = true 
+                        KeychainManager.saveToken(token: token, key: "1")
+                        self.isLoggedIn = true
                     } else if let error = loginResponse.error {
                         self.alertMessage = error
                         self.showAlert = true
@@ -42,4 +44,7 @@ class LoginViewModel: ObservableObject {
                 }
             }
     }
+}
+#Preview {
+    LoginView()
 }
