@@ -2,14 +2,17 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
-    @State private var showRegisterCover = false 
+    @State private var showRegisterCover = false
+    @State private var loginRequirements = false
     var hatView = RotatingIconView()
+
     var body: some View {
         VStack {
             hatView
-                Text("Login")
-                    .font(.largeTitle)
-                    .padding(.bottom, 20)
+            Text("Login")
+                .font(.largeTitle)
+                .padding(.bottom, 20)
+
             TextField("Username", text: $viewModel.username)
                 .padding()
                 .background(Color(.systemGray6))
@@ -21,9 +24,13 @@ struct LoginView: View {
                 .cornerRadius(8)
 
             Button("Login") {
-                viewModel.login()
-                viewModel.username = ""
-                viewModel.password = ""
+                if viewModel.username.count > 6 && viewModel.password.count > 0 {
+                    viewModel.login()
+                    viewModel.username = ""
+                    viewModel.password = ""
+                } else {
+                    loginRequirements = true
+                }
             }
             .padding()
             .frame(maxWidth: .infinity)
@@ -31,8 +38,12 @@ struct LoginView: View {
             .foregroundColor(.white)
             .cornerRadius(8)
 
+            .alert(isPresented: $loginRequirements) { 
+                Alert(title: Text("Login Requirements"), message: Text("Please fill all fields. Passwords need to be at least 6 characters."), dismissButton: .default(Text("OK")))
+            }
+
             HStack {
-                Text("Dont have an acccount?")
+                Text("Don't have an account?")
                 Button("Register") {
                     showRegisterCover = true
                 }
